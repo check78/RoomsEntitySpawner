@@ -1,5 +1,4 @@
 -- Services
-
 local Players = game:GetService("Players")
 local ReSt = game:GetService("ReplicatedStorage")
 local RS = game:GetService("RunService")
@@ -7,7 +6,6 @@ local TS = game:GetService("TweenService")
 local CG = game:GetService("CoreGui")
 
 -- Variables
-
 local Plr = Players.LocalPlayer
 local Char = Plr.Character or Plr.CharacterAdded:Wait()
 local Hum = Char:WaitForChild("Humanoid")
