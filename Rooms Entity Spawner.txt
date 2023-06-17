@@ -40,8 +40,6 @@ Spawner.createEntity = function(config)
         end
     end
 
-    config.Speed = config.Speed
-
     -- Model
 
     local entityModel = LoadCustomInstance(config.Model)
