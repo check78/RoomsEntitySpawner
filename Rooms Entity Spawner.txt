@@ -75,12 +75,12 @@ Spawner.runEntity = function(entityTable)
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
 entity.CFrame = workspace.SpawnLocation.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
-entity.Anchored = true
-entity.CanCollide = false
 entityModel.Parent = workspace
 local exist = true
 
 task.spawn(entityTable.Debug.OnEntitySpawned)
+entity.Anchored = true
+entity.CanCollide = false
 
 task.wait(entityTable.Config.DelayTime)
 
