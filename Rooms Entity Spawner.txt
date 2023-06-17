@@ -49,11 +49,8 @@ Spawner.createEntity = function(config)
     local entityModel = LoadCustomInstance(config.Model)
 
 local entity = nil
-if not entityModel.PrimaryPart then
+if entityModel:FindFirstChildWhichIsA("BasePart") then
 entityModel.PrimaryPart = entityModel:FindFirstChildWhichIsA("BasePart")
-entity = entityModel.PrimaryPart
-
-elseif entityModel.PrimaryPart then
 entity = entityModel.PrimaryPart
 
 elseif entityModel:IsA("BasePart") then
