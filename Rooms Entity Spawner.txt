@@ -117,7 +117,6 @@ local pathfindingService = game:GetService("PathfindingService")
 local tweenservice = game.TweenService
 
 -- Loop through all doors and create pathfinding object
--- Loop through all doors and create pathfinding object
 for _, room in pairs(workspace:GetChildren()) do
 local v = room
         	if v.Name == "room1" or
@@ -132,7 +131,6 @@ local v = room
         	v.Name == "break room" or
         	v.Name == "tall room" or
           v.Name == "projector room" then
-if v:FindFirstChild("door") then 
 
     if room:FindFirstChild("Nodes") then -- Change this to the name of your door
             for _, nodes in pairs(room:FindFirstChild("Nodes"):GetChildren()) do
@@ -171,8 +169,7 @@ tween:Play()
             tween.Completed:Wait()
     end
 task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
-task.wait(entityTable.Config.PauseNextRoom)
-end
+--task.wait(entityTable.Config.PauseNextRoom)
 end
 end
 
