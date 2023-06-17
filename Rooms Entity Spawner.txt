@@ -74,9 +74,6 @@ Spawner.runEntity = function(entityTable)
 
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
-elseif entityModel:IsA("BasePart") then
-entity = entityModel
-end
 entity.CFrame = workspace.SpawnLocation.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
 entityModel.Parent = workspace
 local exist = true
