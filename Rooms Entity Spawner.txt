@@ -44,7 +44,7 @@ Spawner.createEntity = function(config)
 
     local entityModel = LoadCustomInstance(config.Model)
 
-config.Speed = tonumber(config.Speed)
+config.Speed = config.Speed
 local sped = config.Speed
             
             if config.CustomName then
