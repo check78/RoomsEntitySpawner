@@ -1,0 +1,11 @@
+return {
+    Speed = 100,
+    DelayTime = 2,
+    HeightOffset = 0,
+    CanKill = true,
+    KillRange = 50,
+    Damage = 100,
+    DespawnTime = 5,
+    PauseNextRoom = 0.7,
+    Fall = true,
+}
