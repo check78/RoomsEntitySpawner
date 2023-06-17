@@ -75,6 +75,8 @@ Spawner.runEntity = function(entityTable)
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
 entity.CFrame = workspace.SpawnLocation.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
+entity.Anchored = true
+entity.CanCollide = false
 entityModel.Parent = workspace
 local exist = true
 
@@ -134,9 +136,9 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 tween:Play()
             tween.Completed:Wait()
             end
+            end
             task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
             task.wait(entityTable.Config.PauseNextRoom)
-            end
     elseif room:FindFirstChild("door") then -- Change this to the name of your door
             local newPosition = room:FindFirstChild("door").Position
 -- Calculate the distance between the start and end position of the part
