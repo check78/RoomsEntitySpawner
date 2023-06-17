@@ -43,6 +43,8 @@ Spawner.createEntity = function(config)
     -- Model
 
     local entityModel = LoadCustomInstance(config.Model)
+
+config.Speed = tonumber(config.Speed)
             
             if config.CustomName then
                 entityModel.Name = config.CustomName
@@ -77,11 +79,8 @@ entityModel.Parent = workspace
 local exist = true
 
 task.spawn(entityTable.Debug.OnEntitySpawned)
-config.Speed = tonumber(config.Speed)
-print(config.Speed)
 
 task.wait(entityTable.Config.DelayTime)
-print(config.Speed)
 
 coroutine.wrap(function()
 while exist == true do
@@ -110,9 +109,7 @@ end
 task.wait()
 end
 end)()
-print(config.Speed)
 task.spawn(entityTable.Debug.OnEntityStartMoving)
-print(config.Speed)
 -- Get PathfindingService
 local pathfindingService = game:GetService("PathfindingService")
 local tweenservice = game.TweenService
@@ -135,7 +132,6 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 
 -- Start the tween
 tween:Play()
-print(config.Speed)
             tween.Completed:Wait()
             end
             task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
@@ -154,7 +150,6 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 
 -- Start the tween
 tween:Play()
-print(config.Speed)
             tween.Completed:Wait()
     task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
     end
