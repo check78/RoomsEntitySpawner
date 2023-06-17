@@ -78,7 +78,6 @@ local exist = true
 
 task.spawn(entityTable.Debug.OnEntitySpawned)
 local Speed = config.Speed 
-Speed = Speed:gsub("%D", "") --removes all non-digit characters
 Speed = tonumber(Speed)
 
 task.wait(entityTable.Config.DelayTime)
