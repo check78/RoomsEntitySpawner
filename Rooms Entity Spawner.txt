@@ -77,10 +77,12 @@ entityModel.Parent = workspace
 local exist = true
 
 task.spawn(entityTable.Debug.OnEntitySpawned)
-local Speed = config.Speed
+local Speed = config.Speed 
+Speed = Speed:gsub("%D", "") --removes all non-digit characters
 Speed = tonumber(Speed)
 
 task.wait(entityTable.Config.DelayTime)
+print(Speed)
 
 coroutine.wrap(function()
 while exist == true do
@@ -133,6 +135,7 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 
 -- Start the tween
 tween:Play()
+print(Speed)
             tween.Completed:Wait()
             end
             task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
@@ -151,6 +154,7 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 
 -- Start the tween
 tween:Play()
+print(Speed)
             tween.Completed:Wait()
     task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
     end
