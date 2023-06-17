@@ -119,6 +119,7 @@ local tweenservice = game.TweenService
 -- Loop through all doors and create pathfinding object
 -- Loop through all doors and create pathfinding object
 for _, room in pairs(workspace:GetChildren()) do
+task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
     if room:FindFirstChild("Nodes") then -- Change this to the name of your door
             for _, nodes in pairs(room:FindFirstChild("Nodes"):GetChildren()) do
 
@@ -140,8 +141,6 @@ tween:Play()
             end
 
             end
-task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
-    task.wait(entityTable.Config.PauseNextRoom)
     elseif room:FindFirstChild("door") then -- Change this to the name of your door
             local newPosition = room:FindFirstChild("door").Position
 -- Calculate the distance between the start and end position of the part
@@ -156,9 +155,8 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 -- Start the tween
 tween:Play()
             tween.Completed:Wait()
-task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
-    task.wait(entityTable.Config.PauseNextRoom)
     end
+task.wait(entityTable.Config.PauseNextRoom)
 end
 
 task.spawn(entityTable.Debug.OnEntityDespawned)
