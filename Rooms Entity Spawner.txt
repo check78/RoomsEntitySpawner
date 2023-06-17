@@ -79,8 +79,6 @@ entityModel.Parent = workspace
 local exist = true
 
 task.spawn(entityTable.Debug.OnEntitySpawned)
-entity.Anchored = true
-entity.CanCollide = false
 
 task.wait(entityTable.Config.DelayTime)
 
@@ -112,6 +110,8 @@ task.wait()
 end
 end)()
 task.spawn(entityTable.Debug.OnEntityStartMoving)
+entity.Anchored = true
+entity.CanCollide = false
 -- Get PathfindingService
 local pathfindingService = game:GetService("PathfindingService")
 local tweenservice = game.TweenService
@@ -138,7 +138,6 @@ tween:Play()
             end
             end
             task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
-            task.wait(entityTable.Config.PauseNextRoom)
     elseif room:FindFirstChild("door") then -- Change this to the name of your door
             local newPosition = room:FindFirstChild("door").Position
 -- Calculate the distance between the start and end position of the part
