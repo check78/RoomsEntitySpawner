@@ -132,6 +132,7 @@ local v = room
         	v.Name == "break room" or
         	v.Name == "tall room" or
           v.Name == "projector room" then
+if v:FindFirstChild("door") then 
 
     if room:FindFirstChild("Nodes") then -- Change this to the name of your door
             for _, nodes in pairs(room:FindFirstChild("Nodes"):GetChildren()) do
@@ -171,6 +172,7 @@ tween:Play()
     end
 task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 task.wait(entityTable.Config.PauseNextRoom)
+end
 end
 end
 
