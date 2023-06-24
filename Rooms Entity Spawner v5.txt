@@ -189,7 +189,7 @@ for i, waypoint in ipairs(waypoints) do
 Move(waypoint)
 end
 Move(room:FindFirstChild("door"))
-task.spawn(entityTable.Debug.OnEntityEnteredRoom, room.Name)
+task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 
     end
 end
