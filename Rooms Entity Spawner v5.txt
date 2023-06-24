@@ -169,8 +169,6 @@ local v = room
         	v.Name == "tall room" or
           v.Name == "projector room" then
 
-    if room:FindFirstChild("door") then -- Change this to the name of your door
-
 -- Create a new path
 local path = pathfindingService:CreatePath()
 
@@ -189,7 +187,6 @@ end
 Move(room:FindFirstChild("door").Position)
 task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 
-    end
 end
 end
 end
