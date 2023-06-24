@@ -142,26 +142,25 @@ if not Char:GetAttribute("IsDead") then
               Hum:TakeDamage(entityTable.Config.Damage)
               if Hum.Health < entityTable.Config.Damage then
 print("you are dead, not a big surprise.")
-                            --task.spawn(entityTable.Debug.OnDeath)
+                            task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
-                        
+                        coroutine.wrap(function()
                         if entityTable.Config.Jumpscare[1] then
-                            coroutine.wrap(function()
                             Spawner.runJumpscare(entityTable.Config.Jumpscare[2])
-                            end)()
                         end
+                        end)()
               Char:SetAttribute("IsDead", true)
               end
               elseif entityTable.Config.Damage > 99 then
               Hum.Health = 0
-              --task.spawn(entityTable.Debug.OnDeath)
+              tsk.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
+                        coroutine.wrap(function()
                         if entityTable.Config.Jumpscare[1] then
-                            coroutine.wrap(function()
                             Spawner.runJumpscare(entityTable.Config.Jumpscare[2])
-                            end)()
                         end
+                        end)()
               Char:SetAttribute("IsDead", true)
               end
         end
