@@ -18,6 +18,7 @@ local SelfModules = {
 
 local FindPartOnRayWithIgnoreList = workspace.FindPartOnRayWithIgnoreList
 local WorldToViewportPoint = Camera.WorldToViewportPoint
+local EntityConnections = {}
 
 local Spawner = {}
 
@@ -62,6 +63,7 @@ config.Speed = config.Speed
                     OnEntityDespawned = function() end,
                     OnEntityStartMoving = function() end,
                     OnEntityEnteredRoom = function() end,
+                    OnEntityFinishedRebound = function() end,
                     OnLookAtEntity = function() end,
                     OnDeath = function() end
                 }
@@ -74,6 +76,10 @@ Spawner.runEntity = function(entityTable)
 
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
+entity.Anchored = true
+entity.CanCollide = false
+    EntityConnections[entityModel] = {}
+    local entityConnections = EntityConnections[entityModel]
 local children = workspace.CurrentRooms:GetChildren()
 
 local reversedChildren = {}
@@ -116,8 +122,7 @@ task.spawn(entityTable.Debug.OnEntitySpawned)
 
 task.wait(entityTable.Config.DelayTime)
 
-coroutine.wrap(function()
-while exist == true do
+entityConnections.movementTick = RS.Stepped:Connect(function()
             local entityPos = entity.Position
             local rootPos = getPlayerRoot().Position
             local playerInSight = FindPartOnRayWithIgnoreList(workspace, Ray.new(entityPos, rootPos - entityPos), {entity, Char}) == nil
@@ -139,17 +144,26 @@ if not Char:GetAttribute("IsDead") then
               end
               if Hum.Health <= 0 then
               task.spawn(entityTable.Debug.OnDeath)
+                        -- Jumpscare
+                        
+                        if entityTable.Config.Jumpscare[1] then
+                            coroutine.wrap(function()
+                            Spawner.runJumpscare(entityTable.Config.Jumpscare[2])
+                            end)()
+                        end
               Char:SetAttribute("IsDead", true)
               end
         end
     end
 end
-task.wait()
-end
-end)()
+
+end)
+
 task.spawn(entityTable.Debug.OnEntityStartMoving)
 entity.Anchored = true
 entity.CanCollide = false
+local cyclesConfig = entityTable.Config.Cycles
+
 -- Get PathfindingService
 local pathfindingService = game:GetService("PathfindingService")
 local tweenservice = game.TweenService
@@ -201,10 +215,77 @@ end
 end
 end
 
+local function ReverseMoving()
+children = workspace.CurrentRooms:GetChildren()
+reversedChildren = {}
+
+for i = #children, 1, -1 do
+    table.insert(reversedChildren, children[i])
+end
+children = reversedChildren
+
+if entityTable.Config.BackwardsMovement then
+children = workspace.CurrentRooms:GetChildren()
+end
+-- Loop through all doors and create pathfinding object
+for _, room in pairs(children) do
+local v = room
+        	if v.Name == "room1" or
+        	v.Name == "room2" or
+        	v.Name == "room3" or
+        	v.Name == "room4" or
+        	v.Name == "room5" or
+          v.Name == "Storage" or
+          v.Name == "locker room" or
+        	v.Name == "reference_room" or
+        	v.Name == "box room" or
+        	v.Name == "break room" or
+        	v.Name == "tall room" or
+          v.Name == "projector room" then
+
+-- Create a new path
+local path = pathfindingService:CreatePath()
+
+-- Set the start and end positions of the path
+path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
+
+-- Get the waypoints of the path
+local waypoints = path:GetWaypoints()
+
+-- Create a part for each waypoint and move them to the corresponding position
+for i, waypoint in ipairs(waypoints) do
+Move(waypoint.Action)
+end
+Move(room:FindFirstChild("door").Position)
+task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
+
+end
+end
+end
+
 Moving()
+
+    for cycle = 1, math.max(math.random(cyclesConfig.Min, cyclesConfig.Max), 1) do
+        Moving()
+
+        if cyclesConfig.Max > 1 then
+            ReverseMoving()
+        end
+
+        -- Rebound finished
+
+        task.spawn(entityTable.Debug.OnEntityFinishedRebound)
+        
+        if cycle < cyclesConfig.Max then
+            task.wait(cyclesConfig.WaitTime)
+        end
+    end
 
 task.spawn(entityTable.Debug.OnEntityDespawned)
 exist = false
+        for _, v in next, entityConnections do
+            v:Disconnect()
+        end
 if entityTable.Config.Fall == true then
 
 entity.Anchored = false
@@ -214,6 +295,119 @@ end
 
 task.wait(entityTable.Config.DespawnTime)
 entityModel:Destroy()
+end
+
+
+Spawner.runJumpscare = function(config)
+    -- Variables
+
+    local image1 = LoadCustomAsset(config.Image1)
+    local image2 = LoadCustomAsset(config.Image2)
+    local sound1, sound2 = nil, nil
+
+    if config.Sound1 then
+        sound1 = loadSound(config.Sound1)
+    end
+
+    if config.Sound2 then
+        sound2 = loadSound(config.Sound2)
+    end
+
+    -- UI Construction
+
+    local JumpscareGui = Instance.new("ScreenGui")
+    local Background = Instance.new("Frame")
+    local Face = Instance.new("ImageLabel")
+
+    JumpscareGui.Name = "JumpscareGui"
+    JumpscareGui.IgnoreGuiInset = true
+    JumpscareGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+    Background.Name = "Background"
+    Background.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Background.BorderSizePixel = 0
+    Background.Size = UDim2.new(1, 0, 1, 0)
+    Background.ZIndex = 999
+
+    Face.Name = "Face"
+    Face.AnchorPoint = Vector2.new(0.5, 0.5)
+    Face.BackgroundTransparency = 1
+    Face.Position = UDim2.new(0.5, 0, 0.5, 0)
+    Face.ResampleMode = Enum.ResamplerMode.Pixelated
+    Face.Size = UDim2.new(0, 150, 0, 150)
+    Face.Image = image1
+
+    Face.Parent = Background
+    Background.Parent = JumpscareGui
+    JumpscareGui.Parent = game.Players.LocalPlayer.PlayerGui
+    
+    -- Tease
+
+    local teaseConfig = config.Tease
+    local absHeight = JumpscareGui.AbsoluteSize.Y
+    local minTeaseSize = absHeight / 5
+    local maxTeaseSize = absHeight / 2.5
+
+    if teaseConfig[1] then
+        local teaseAmount = math.random(teaseConfig.Min, teaseConfig.Max)
+
+        sound1:Play()
+        
+        for _ = teaseConfig.Min, teaseAmount do
+            task.wait(math.random(100, 200) / 100)
+
+            local growFactor = (maxTeaseSize - minTeaseSize) / teaseAmount
+            Face.Size = UDim2.new(0, Face.AbsoluteSize.X + growFactor, 0, Face.AbsoluteSize.Y + growFactor)
+        end
+
+        task.wait(math.random(100, 200) / 100)
+    end
+    
+    -- Flashing
+
+    if config.Flashing[1] then
+        task.spawn(function()
+            while JumpscareGui.Parent do
+                Background.BackgroundColor3 = config.Flashing[2]
+                task.wait(math.random(25, 100) / 1000)
+                Background.BackgroundColor3 = Color3.new(0, 0, 0)
+                task.wait(math.random(25, 100) / 1000)
+            end
+        end)
+    end
+    
+    -- Shaking
+
+    if config.Shake then
+        task.spawn(function()
+            local origin = Face.Position
+
+            while JumpscareGui.Parent do
+                Face.Position = origin + UDim2.new(0, math.random(-10, 10), 0, math.random(-10, 10))
+                Face.Rotation = math.random(-5, 5)
+
+                task.wait()
+            end
+        end)
+    end
+
+    -- Jumpscare
+    
+    Face.Image = image2
+    Face.Size = UDim2.new(0, maxTeaseSize, 0, maxTeaseSize)
+    sound2:Play()
+    
+    TS:Create(Face, TweenInfo.new(0.75), {Size = UDim2.new(0, absHeight * 3, 0,  absHeight * 3), ImageTransparency = 0.5}):Play()
+    task.wait(0.75)
+    JumpscareGui:Destroy()
+    
+    if sound1 then
+        sound1:Destroy()
+    end
+    
+    if sound2 then
+        sound2:Destroy()
+    end
 end
 
 return Spawner

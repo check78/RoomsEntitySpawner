@@ -6,7 +6,15 @@ return {
     KillRange = 50,
     Damage = 100,
     DespawnTime = 5,
-    PauseNextRoom = 0.7,
     Fall = true,
     BackwardsMovement = false,
+    Cycles = {
+        Min = 1,
+        Max = 1,
+        WaitTime = 2
+    },
+    Jumpscare = {
+        false,
+        {}
+    },
 }
