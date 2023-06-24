@@ -153,7 +153,7 @@ print("you are dead, not a big surprise.")
               end
               elseif entityTable.Config.Damage > 99 then
               Hum.Health = 0
-              tsk.spawn(entityTable.Debug.OnDeath)
+              task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
                         coroutine.wrap(function()
