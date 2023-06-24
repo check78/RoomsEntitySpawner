@@ -178,17 +178,17 @@ local v = room
 -- Create a new path
 local path = pathfindingService:CreatePath()
 
+if entityTable.Config.BackwardsMovement then
+-- Set the start and end positions of the path
+path:ComputeAsync(room:FindFirstChild("door").Position, entity.Position)
+else
 -- Set the start and end positions of the path
 path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
+end
 
 -- Get the waypoints of the path
 local waypoints = path:GetWaypoints()
 
-if entityTable.Config.BackwardsMovement then
-        table.sort(waypoints, function(a, b)
-            return tonumber(a.Name) < tonumber(b.Name)
-        end)
-end
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
 Move(waypoint)
