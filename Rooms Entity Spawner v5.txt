@@ -350,7 +350,7 @@ Spawner.runJumpscare = function(config)
 
     Face.Parent = Background
     Background.Parent = JumpscareGui
-    JumpscareGui.Parent = game.Players.LocalPlayer.PlayerGui
+    JumpscareGui.Parent = CG
     
     -- Tease
 
