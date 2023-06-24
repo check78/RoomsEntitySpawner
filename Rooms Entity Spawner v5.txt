@@ -174,8 +174,12 @@ local v = room
 -- Create a new path
 local path = pathfindingService:CreatePath()
 
+if entityTable.Config.BackwardsMovement then
 -- Set the start and end positions of the path
 path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
+else
+path:ComputeAsync(room:FindFirstChild("door").Position, entity.Position)
+end
 
 -- Get the waypoints of the path
 local waypoints = path:GetWaypoints()
