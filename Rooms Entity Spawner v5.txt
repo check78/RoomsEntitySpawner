@@ -80,7 +80,10 @@ if entityTable.Config.BackwardsMovement == true then
 children = table.reverse(children) -- reverses the order of the table so the last child becomes first
 end
 
-local startNodeOffset = entityTable.Config.BackwardsMovement and -50 or 50
+local startNodeOffset = 50
+if entityTable.Config.BackwardsMovement then
+startNodeOffset = -50
+end
 
 entity.CFrame = children[1].door.CFrame * CFrame.new(0, 0, startNodeOffset) + Vector3.new(0, entityTable.Config.HeightOffset, 0)
 entityModel.Parent = workspace
