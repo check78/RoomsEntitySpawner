@@ -60,7 +60,7 @@ config.Speed = config.Speed
                 Config = config,
                 Debug = {
                     OnEntitySpawned = function() end,
-                    OnEntityDespawned = function() end,
+                    --OnEntityDespawned = function() end,
                     OnEntityStartMoving = function() end,
                     OnEntityFinishedRebound = function() end,
                     OnEntityEnteredRoom = function() end,
@@ -283,7 +283,7 @@ Moving()
         end
     end
 
-task.spawn(entityTable.Debug.OnEntityDespawned)
+--task.spawn(entityTable.Debug.OnEntityDespawned)
 exist = false
         for _, v in next, entityConnections do
             v:Disconnect()
