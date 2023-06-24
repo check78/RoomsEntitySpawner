@@ -141,6 +141,7 @@ if not Char:GetAttribute("IsDead") then
               if entityTable.Config.Damage < 99 then
               Hum:TakeDamage(entityTable.Config.Damage)
               if Hum.Health < entityTable.Config.Damage then
+print("you are dead, not a big surprise.")
                             --task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
