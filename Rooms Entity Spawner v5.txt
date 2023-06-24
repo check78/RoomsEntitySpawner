@@ -77,7 +77,7 @@ local entity = entityModel:FindFirstChildWhichIsA("BasePart")
 
 local children = workspace.CurrentRooms:GetChildren()
 if entityTable.Config.BackwardsMovement then
-table.reverse(children) -- reverses the order of the table so the last child becomes first
+children = table.reverse(children) -- reverses the order of the table so the last child becomes first
 end
 
 local startNodeOffset = entityTable.Config.BackwardsMovement and -50 or 50
