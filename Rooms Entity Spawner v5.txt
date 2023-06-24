@@ -62,8 +62,8 @@ config.Speed = config.Speed
                     OnEntitySpawned = function() end,
                     OnEntityDespawned = function() end,
                     OnEntityStartMoving = function() end,
-                    OnEntityEnteredRoom = function() end,
                     OnEntityFinishedRebound = function() end,
+                    OnEntityEnteredRoom = function() end,
                     OnLookAtEntity = function() end,
                     OnDeath = function() end
                 }
@@ -123,6 +123,7 @@ task.spawn(entityTable.Debug.OnEntitySpawned)
 task.wait(entityTable.Config.DelayTime)
 
 entityConnections.movementTick = RS.Stepped:Connect(function()
+if exist == true then
             local entityPos = entity.Position
             local rootPos = getPlayerRoot().Position
             local playerInSight = FindPartOnRayWithIgnoreList(workspace, Ray.new(entityPos, rootPos - entityPos), {entity, Char}) == nil
@@ -157,6 +158,7 @@ if not Char:GetAttribute("IsDead") then
     end
 end
 
+end
 end)
 
 task.spawn(entityTable.Debug.OnEntityStartMoving)
