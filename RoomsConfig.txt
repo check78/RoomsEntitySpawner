@@ -8,4 +8,5 @@ return {
     DespawnTime = 5,
     PauseNextRoom = 0.7,
     Fall = true,
+    BackwardsMovement = false,
 }
