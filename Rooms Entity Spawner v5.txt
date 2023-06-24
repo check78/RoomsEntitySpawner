@@ -4,6 +4,7 @@ local ReSt = game:GetService("ReplicatedStorage")
 local RS = game:GetService("RunService")
 local TS = game:GetService("TweenService")
 local CG = game:GetService("CoreGui")
+local Hiding = game.Players.LocalPlayer.PlayerGui.hiding.Heartbeat.Playing
 
 -- Variables
 local Plr = Players.LocalPlayer
@@ -137,7 +138,7 @@ if exist == true then
                     task.spawn(entityTable.Debug.OnLookAtEntity)
                 end
 if not Char:GetAttribute("IsDead") then
-        if Killrange < entityTable.Config.KillRange and entityTable.Config.CanKill == true then
+        if Killrange < entityTable.Config.KillRange and entityTable.Config.CanKill == true and not Hiding == true then
               if entityTable.Config.Damage < 99 then
               Hum:TakeDamage(entityTable.Config.Damage)
               elseif entityTable.Config.Damage > 99 then
