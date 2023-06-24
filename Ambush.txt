@@ -1,0 +1,45 @@
+
+local Creator = loadstring(game:HttpGet("https://raw.githubusercontent.com/check78/RoomsEntitySpawner/main/Rooms%20Entity%20Spawner%20v5.txt"))()
+
+-- Create entity
+
+local entity = Creator.createEntity({
+    CustomName = "Ambush", -- Custom name of your entity
+    Model = "rbxassetid://12263106166", -- Can be GitHub file or rbxassetid
+    Speed = 150, -- Percentage, 100 = default Rush speed
+    DelayTime = 3, -- Time before starting cycles (seconds)
+    HeightOffset = 3.5,
+    CanKill = true,
+    KillRange = 100,
+    Damage = 0.1,
+    DespawnTime = 5,
+    PauseNextRoom = 0.7,
+    Fall = true,
+    BackwardsMovement = true,
+})
+
+-----[[ Advanced ]]-----
+entity.Debug.OnEntitySpawned = function(entityModel)
+    print("Entity has spawned:", entityModel)
+end
+
+entity.Debug.OnEntityDespawned = function(entityModel)
+    print("Entity has despawned:", entityModel)
+end
+
+entity.Debug.OnEntityStartMoving = function(entityModel)
+    print("Entity has started moving:", entityModel)
+end
+
+entity.Debug.OnEntityEnteredRoom = function(entityTable, room)
+    print("Entity:", "has entered room:", room)
+end
+
+entity.Debug.OnDeath = function()
+    warn("You died.")
+end
+
+------------------------
+
+-- Run the created entity
+Creator.runEntity(entity)
