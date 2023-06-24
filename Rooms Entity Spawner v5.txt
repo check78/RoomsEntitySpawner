@@ -181,7 +181,7 @@ path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
 local waypoints = path:GetWaypoints()
 
 if entityTable.Config.BackwardsMovement then
-table.sort(waypoints, function(a, b) return a.Position > b.Position end) -- reverses the order of the table so the last child becomes first
+table.sort(waypoints, function(a, b) return a > b end) -- reverses the order of the table so the last child becomes first
 end
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
