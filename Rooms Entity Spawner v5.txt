@@ -90,7 +90,7 @@ entityModel.Parent = workspace
 local exist = true
 
 local function Move(node)
-            local newPosition = node.Position
+            local newPosition = node
 -- Calculate the distance between the start and end position of the part
 local distance = (newPosition - entity.Position).Magnitude
 
@@ -181,13 +181,13 @@ path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
 local waypoints = path:GetWaypoints()
 
 if entityTable.Config.BackwardsMovement then
-table.sort(waypoints, function(a, b) return a > b end) -- reverses the order of the table so the last child becomes first
+table.sort(waypoints, function(a, b) return a.Action > b.Action end) -- reverses the order of the table so the last child becomes first
 end
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
-Move(waypoint)
+Move(waypoint.Action)
 end
-Move(room:FindFirstChild("door"))
+Move(room:FindFirstChild("door").Position)
 task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 
     end
