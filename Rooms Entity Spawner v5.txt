@@ -140,8 +140,8 @@ if not Char:GetAttribute("IsDead") then
         if Killrange < entityTable.Config.KillRange and entityTable.Config.CanKill == true and game.Players.LocalPlayer.PlayerGui.hiding.Heartbeat.Playing == false then
               if entityTable.Config.Damage < 99 then
               Hum:TakeDamage(entityTable.Config.Damage)
-              if Hum.Health == 0 then
-                            task.spawn(entityTable.Debug.OnDeath)
+              if Hum.Health < entityTable.Config.Damage then
+                            --task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
                         if entityTable.Config.Jumpscare[1] then
@@ -153,7 +153,7 @@ if not Char:GetAttribute("IsDead") then
               end
               elseif entityTable.Config.Damage > 99 then
               Hum.Health = 0
-              task.spawn(entityTable.Debug.OnDeath)
+              --task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
                         if entityTable.Config.Jumpscare[1] then
