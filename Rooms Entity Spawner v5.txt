@@ -76,18 +76,15 @@ local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
 local children = workspace.CurrentRooms:GetChildren()
 
-local function reverseChildren(parent)
-    local child = parent:GetChildren()
-    table.sort(child, function(a, b) return a.AbsoluteOrder > b.AbsoluteOrder end)
-    for i = #child, 1, -1 do
-        print(child[i].Name)
-    end
-    return child
+local reversedChildren = {}
+
+for i = #children, 1, -1 do
+    table.insert(reversedChildren, children[i])
 end
 
 if entityTable.Config.BackwardsMovement == true then
 --table.sort(children, function(a, b) return a.Name > b.Name end) -- reverses the order of the table so the last child becomes first
-children = reverseChildren(workspace.CurrentRooms)
+children = reversedChildren
 end 
 
 local startNodeOffset = -150
@@ -159,9 +156,14 @@ local tweenservice = game.TweenService
 
 local function Moving()
 children = workspace.CurrentRooms:GetChildren()
+reversedChildren = {}
+
+for i = #children, 1, -1 do
+    table.insert(reversedChildren, children[i])
+end
 
 if entityTable.Config.BackwardsMovement then
-children = reverseChildren(workspace.CurrentRooms)
+children = reversedChildren
 end
 -- Loop through all doors and create pathfinding object
 for _, room in pairs(children) do
