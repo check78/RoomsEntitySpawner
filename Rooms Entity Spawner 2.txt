@@ -74,7 +74,8 @@ Spawner.runEntity = function(entityTable)
 
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
-entity.CFrame = workspace.SpawnLocation.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
+--entity.CFrame = workspace.SpawnLocation.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
+entity.CFrame = workspace.CurrentRooms:GetChildren()[1].door.CFrame + Vector3.new(0, entityTable.Config.HeightOffset, 0)
 entityModel.Parent = workspace
 local exist = true
 
@@ -121,7 +122,7 @@ local pathfindingService = game:GetService("PathfindingService")
 local tweenservice = game.TweenService
 
 -- Loop through all doors and create pathfinding object
-for _, room in pairs(workspace:GetChildren()) do
+for _, room in pairs(workspace.CurrentRooms:GetChildren()) do
 local v = room
         	if v.Name == "room1" or
         	v.Name == "room2" or
@@ -163,6 +164,19 @@ local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Positio
 tween:Play()
             tween.Completed:Wait()
 end
+            local newPosition = room:FindFirstChild("door").Position
+-- Calculate the distance between the start and end position of the part
+local distance = (newPosition - entity.Position).Magnitude
+
+local duration = distance / entityTable.Config.Speed
+
+-- Create a new tween using the TweenService
+local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear)
+local tween = game:GetService("TweenService"):Create(entity, tweenInfo, {Position = newPosition + Vector3.new(0, entityTable.Config.HeightOffset, 0)})
+
+-- Start the tween
+tween:Play()
+            tween.Completed:Wait()
 task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 
     end
