@@ -74,11 +74,20 @@ Spawner.runEntity = function(entityTable)
 
 local entityModel = entityTable.Model:Clone()
 local entity = entityModel:FindFirstChildWhichIsA("BasePart")
-
 local children = workspace.CurrentRooms:GetChildren()
+
+local function reverseChildren(parent)
+    local child = parent:GetChildren()
+    table.sort(child, function(a, b) return a.AbsoluteOrder > b.AbsoluteOrder end)
+    for i = #child, 1, -1 do
+        print(child[i].Name)
+    end
+    return child
+end
+
 if entityTable.Config.BackwardsMovement == true then
 --table.sort(children, function(a, b) return a.Name > b.Name end) -- reverses the order of the table so the last child becomes first
-table.reverse(children)
+children = reverseChildren(workspace.CurrentRooms)
 end 
 
 local startNodeOffset = -150
@@ -152,7 +161,7 @@ local function Moving()
 children = workspace.CurrentRooms:GetChildren()
 
 if entityTable.Config.BackwardsMovement then
-table.sort(children, function(a, b) return a:GetFullName() > b:GetFullName() end) -- reverses the order of the table so the last child becomes first
+children = reverseChildren(workspace.CurrentRooms)
 end
 -- Loop through all doors and create pathfinding object
 for _, room in pairs(children) do
