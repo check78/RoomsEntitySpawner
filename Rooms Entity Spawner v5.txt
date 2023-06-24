@@ -123,7 +123,7 @@ task.spawn(entityTable.Debug.OnEntitySpawned)
 task.wait(entityTable.Config.DelayTime)
 
 entityConnections.movementTick = RS.Stepped:Connect(function()
-if exist == true then
+if not Char:GetAttribute("IsDead") then
             local entityPos = entity.Position
             local rootPos = getPlayerRoot().Position
             local playerInSight = FindPartOnRayWithIgnoreList(workspace, Ray.new(entityPos, rootPos - entityPos), {entity, Char}) == nil
@@ -140,10 +140,19 @@ if not Char:GetAttribute("IsDead") then
         if Killrange < entityTable.Config.KillRange and entityTable.Config.CanKill == true and game.Players.LocalPlayer.PlayerGui.hiding.Heartbeat.Playing == false then
               if entityTable.Config.Damage < 99 then
               Hum:TakeDamage(entityTable.Config.Damage)
+              if Hum.Health == 0 then
+                            task.spawn(entityTable.Debug.OnDeath)
+                        -- Jumpscare
+                        
+                        if entityTable.Config.Jumpscare[1] then
+                            coroutine.wrap(function()
+                            Spawner.runJumpscare(entityTable.Config.Jumpscare[2])
+                            end)()
+                        end
+              Char:SetAttribute("IsDead", true)
+              end
               elseif entityTable.Config.Damage > 99 then
               Hum.Health = 0
-              end
-              if Hum.Health < 1 then
               task.spawn(entityTable.Debug.OnDeath)
                         -- Jumpscare
                         
