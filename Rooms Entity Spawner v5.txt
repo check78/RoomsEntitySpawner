@@ -77,9 +77,7 @@ local entity = entityModel:FindFirstChildWhichIsA("BasePart")
 
 local children = workspace.CurrentRooms:GetChildren()
 if entityTable.Config.BackwardsMovement == true then
-        table.sort(children, function(a, b)
-            return tonumber(a.Name) < tonumber(b.Name)
-        end)
+table.sort(children, function(a, b) return a:GetFullName() > b:GetFullName() end) -- reverses the order of the table so the last child becomes first
 end
 
 local startNodeOffset = -150
@@ -153,9 +151,7 @@ local function Moving()
 children = workspace.CurrentRooms:GetChildren()
 
 if entityTable.Config.BackwardsMovement then
-        table.sort(children, function(a, b)
-            return tonumber(a.Name) < tonumber(b.Name)
-        end)
+table.sort(children, function(a, b) return a:GetFullName() > b:GetFullName() end) -- reverses the order of the table so the last child becomes first
 end
 -- Loop through all doors and create pathfinding object
 for _, room in pairs(children) do
@@ -184,6 +180,9 @@ path:ComputeAsync(entity.Position, room:FindFirstChild("door").Position)
 -- Get the waypoints of the path
 local waypoints = path:GetWaypoints()
 
+if entityTable.Config.BackwardsMovement then
+table.sort(waypoints, function(a, b) return a:GetFullName() > b:GetFullName() end) -- reverses the order of the table so the last child becomes first
+end
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
 Move(waypoint)
