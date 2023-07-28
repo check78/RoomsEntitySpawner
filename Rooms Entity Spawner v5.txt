@@ -200,7 +200,7 @@ local waypoints = path:GetWaypoints()
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
 if waypoint.Action ~= "Jump" then
-Move(waypoint.Position)
+Move(waypoint.Position + Vector3.new(0,-2,0))
 end
 end
 
@@ -255,7 +255,7 @@ local waypoints = path:GetWaypoints()
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
 if waypoint.Action ~= "Jump" then
-Move(waypoint.Position)
+Move(waypoint.Position + Vector3.new(0,-2,0))
 end
 end
 
@@ -267,8 +267,6 @@ task.spawn(entityTable.Debug.OnEntityEnteredRoom, room)
 end
 end
 end
-
-Moving()
 
     for cycle = 1, math.max(math.random(cyclesConfig.Min, cyclesConfig.Max), 1) do
         Moving()
