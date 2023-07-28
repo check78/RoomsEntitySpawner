@@ -8,13 +8,10 @@ return {
     DespawnTime = 5,
     Fall = true,
     BackwardsMovement = false,
+    Pathfinding = false,
     Cycles = {
         Min = 1,
         Max = 1,
         WaitTime = 2
-    },
-    Jumpscare = {
-        false,
-        {}
     },
 }
