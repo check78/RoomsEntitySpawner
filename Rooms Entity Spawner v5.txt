@@ -186,7 +186,7 @@ local v = room
         	v.Name == "tall room" or
           v.Name == "projector room" then
 
-if entityTable.Config.Pathfind then
+if entityTable.Config.Pathfind == true then
 
 -- Create a new path
 local path = pathfindingService:CreatePath()
@@ -239,7 +239,7 @@ local v = room
         	v.Name == "tall room" or
           v.Name == "projector room" then
 
-if entityTable.Config.Pathfind then
+if entityTable.Config.Pathfind == true then
 
 -- Create a new path
 local path = pathfindingService:CreatePath()
