@@ -199,7 +199,7 @@ local waypoints = path:GetWaypoints()
 
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
-Move(waypoint.Action)
+Move(waypoint.Position)
 end
 
 end
@@ -252,7 +252,7 @@ local waypoints = path:GetWaypoints()
 
 -- Create a part for each waypoint and move them to the corresponding position
 for i, waypoint in ipairs(waypoints) do
-Move(waypoint.Action)
+Move(waypoint.Position)
 end
 
 end
